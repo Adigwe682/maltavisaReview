@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malta Visa Update — Adigwe Emmanuel C.</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C9A84C; --gold-light: #E8C97A; --gold-dark: #8B6914;
+    --red: #CC2936; --navy: #0A1628; --navy-mid: #13233D;
+    --cream: #F5EDD6; --white: #FEFCF5;
+  }
+  html, body { height: 100%; font-family: 'Crimson Pro', Georgia, serif; background: var(--navy); color: var(--cream); overflow-x: hidden; }
+
+  .bg { position: fixed; inset: 0; z-index: 0; background: radial-gradient(ellipse at 20% 50%, #1a2f5a 0%, var(--navy) 60%), radial-gradient(ellipse at 80% 20%, #1a1a3a 0%, transparent 50%); }
+  .bg::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(201,168,76,0.03) 60px, rgba(201,168,76,0.03) 61px), repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(201,168,76,0.03) 60px, rgba(201,168,76,0.03) 61px); }
+  .bg-cross { position: fixed; bottom: -100px; right: -100px; width: 500px; height: 500px; opacity: 0.04; background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23C9A84C' d='M80 0h40v80h80v40h-80v80h-40v-80h-80v-40h80z'/%3E%3C/svg%3E") center/contain no-repeat; z-index: 0; }
+
+  .screen { position: relative; z-index: 1; min-height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; }
+  .screen.active { display: flex; }
+
+  .malta-badge { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 2.5rem; }
+  .cross-icon { width: 48px; height: 48px; background: var(--red); clip-path: polygon(33% 0%,67% 0%,67% 33%,100% 33%,100% 67%,67% 67%,67% 100%,33% 100%,33% 67%,0% 67%,0% 33%,33% 33%); box-shadow: 0 0 24px rgba(204,41,54,0.4); }
+  .badge-title { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); }
+
+  /* WELCOME */
+  .welcome-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.2); border-radius: 2px; padding: 3rem 3.5rem; max-width: 520px; width: 100%; text-align: center; backdrop-filter: blur(8px); box-shadow: 0 32px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(201,168,76,0.15); }
+  .welcome-card h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--cream); line-height: 1.15; margin-bottom: 0.5rem; }
+  .welcome-card h1 span { color: var(--gold); }
+  .subtitle { font-size: 1.05rem; font-weight: 300; font-style: italic; color: rgba(245,237,214,0.65); margin-bottom: 2rem; }
+  .divider { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 1.5rem auto; }
+  .instruction { font-size: 1rem; color: rgba(245,237,214,0.8); margin-bottom: 1.8rem; line-height: 1.6; }
+  .name-input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(201,168,76,0.3); border-radius: 2px; padding: 0.9rem 1.2rem; font-family: 'Crimson Pro', serif; font-size: 1.2rem; color: var(--cream); text-align: center; outline: none; transition: border-color 0.3s, box-shadow 0.3s; margin-bottom: 1.2rem; }
+  .name-input::placeholder { color: rgba(245,237,214,0.3); }
+  .name-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.12); }
+  .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--gold); color: var(--navy); font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; padding: 0.9rem 2.5rem; border: none; border-radius: 2px; cursor: pointer; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; text-transform: uppercase; width: 100%; box-shadow: 0 4px 20px rgba(201,168,76,0.3); }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(201,168,76,0.4); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* QUIZ */
+  .quiz-wrap { max-width: 620px; width: 100%; }
+  .progress-bar-wrap { margin-bottom: 2.5rem; display: flex; flex-direction: column; gap: 8px; }
+  .progress-label { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; display: flex; justify-content: space-between; }
+  .progress-track { height: 2px; background: rgba(201,168,76,0.15); border-radius: 1px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--gold); border-radius: 1px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
+  .question-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.15); border-radius: 2px; padding: 2.5rem 3rem; backdrop-filter: blur(8px); box-shadow: 0 24px 60px rgba(0,0,0,0.4); animation: slideUp 0.5s cubic-bezier(0.4,0,0.2,1); }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .q-number { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 3px; color: var(--gold-dark); margin-bottom: 0.8rem; }
+  .q-text { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--cream); line-height: 1.35; margin-bottom: 2rem; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option-btn { display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.18); border-radius: 2px; padding: 0.9rem 1.2rem; cursor: pointer; text-align: left; font-family: 'Crimson Pro', serif; font-size: 1.05rem; color: rgba(245,237,214,0.85); transition: all 0.2s; }
+  .option-btn .opt-letter { font-family: 'Cinzel', serif; font-size: 11px; font-weight: 600; color: var(--gold); min-width: 20px; }
+  .option-btn:hover { background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.5); color: var(--cream); transform: translateX(4px); }
+  .option-btn.chosen { background: rgba(201,168,76,0.2); border-color: var(--gold); color: var(--cream); pointer-events: none; }
+  .option-btn.dimmed { opacity: 0.35; pointer-events: none; }
+
+  /* SAVING INDICATOR */
+  .saving-toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: rgba(10,22,40,0.95); border: 1px solid rgba(201,168,76,0.3); border-radius: 2px; padding: 0.7rem 1.5rem; font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 2px; color: var(--gold); z-index: 200; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .saving-toast.visible { opacity: 1; }
+
+  /* REVEAL */
+  .reveal-content { max-width: 600px; width: 100%; text-align: center; position: relative; z-index: 2; animation: revealEntrance 1s cubic-bezier(0.4,0,0.2,1) both; animation-delay: 0.3s; }
+  @keyframes revealEntrance { from { opacity: 0; transform: scale(0.88); } to { opacity: 1; transform: scale(1); } }
+
+  .letter-doc { background: var(--white); border-radius: 4px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.6); color: #1a1a1a; text-align: left; }
+  .letter-topbar { height: 6px; background: linear-gradient(90deg, var(--red), #8B1A22); }
+  .letter-body { padding: 2.2rem 2.5rem; }
+  .letter-header-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; }
+  .letter-brand-name { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 700; color: #1a1a1a; letter-spacing: 1px; }
+  .letter-brand-sub { font-size: 10px; color: rgba(10,22,40,0.4); letter-spacing: 2px; font-family: 'Cinzel', serif; }
+  .refusal-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; color: var(--red); display: flex; align-items: center; gap: 8px; margin-bottom: 1.2rem; }
+  .letter-fields { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; margin-bottom: 1.4rem; font-size: 0.88rem; }
+  .lf-label { font-weight: 700; color: #1a1a1a; font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 1px; white-space: nowrap; padding: 2px 0; }
+  .lf-value { color: #333; padding: 2px 0; }
+  .letter-divider { height: 1px; background: rgba(204,41,54,0.15); margin: 1rem 0; }
+  .letter-body-text { font-size: 0.92rem; color: #2a2a2a; line-height: 1.65; margin-bottom: 1rem; }
+  .refusal-reason-box { background: rgba(204,41,54,0.06); border-left: 3px solid var(--red); padding: 0.9rem 1.1rem; margin: 1rem 0; border-radius: 0 2px 2px 0; }
+  .refusal-reason-box p { font-size: 0.9rem; color: #2a2a2a; line-height: 1.6; font-style: italic; }
+  .letter-footer-bar { background: rgba(10,22,40,0.04); border-top: 1px solid rgba(204,41,54,0.1); padding: 0.9rem 2.5rem; display: flex; gap: 2rem; flex-wrap: wrap; }
+  .lfoot-item { font-size: 10px; color: rgba(10,22,40,0.4); font-family: 'Cinzel', serif; letter-spacing: 1px; }
+
+  .next-steps { margin-top: 1.5rem; background: rgba(10,22,40,0.6); border: 1px solid rgba(201,168,76,0.2); border-radius: 4px; padding: 1.8rem 2rem; text-align: left; }
+  .next-steps h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+  .step-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 0.9rem; }
+  .step-num { font-family: 'Cinzel', serif; font-size: 10px; font-weight: 700; color: var(--navy); background: var(--gold); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step-text { font-size: 0.95rem; color: rgba(245,237,214,0.8); line-height: 1.55; }
+  .step-text strong { color: var(--gold-light); font-weight: 600; }
+
+  .motivation-box { margin-top: 1.5rem; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2); border-radius: 4px; padding: 1.4rem 1.8rem; text-align: center; }
+  .motivation-box p { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-style: italic; color: var(--gold-light); line-height: 1.6; }
+  .motivation-box span { display: block; margin-top: 0.5rem; font-size: 0.85rem; color: rgba(245,237,214,0.45); font-family: 'Cinzel', serif; letter-spacing: 1px; }
+
+  .reveal-message { margin-top: 1.5rem; font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; color: var(--cream); line-height: 1.4; }
+  .reveal-sub { font-size: 0.95rem; color: rgba(245,237,214,0.55); font-style: italic; margin-top: 0.4rem; margin-bottom: 1.5rem; }
+  .btn-secondary { display: inline-block; background: transparent; border: 1px solid rgba(201,168,76,0.4); color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 2px; padding: 0.7rem 2rem; border-radius: 2px; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+  .btn-secondary:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+
+  /* ADMIN */
+  .admin-sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 240px; background: rgba(10,22,40,0.97); border-right: 1px solid rgba(201,168,76,0.12); padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; z-index: 20; }
+  .admin-logo { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 3px; color: var(--gold); margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(201,168,76,0.15); line-height: 1.8; }
+  .admin-main { margin-left: 240px; padding: 2.5rem 3rem; flex: 1; }
+  .admin-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--cream); margin-bottom: 0.3rem; }
+  .admin-subtitle { font-size: 0.95rem; color: rgba(245,237,214,0.45); margin-bottom: 2rem; }
+  .stats-row { display: flex; gap: 1rem; margin-bottom: 2rem; }
+  .stat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.12); border-radius: 4px; padding: 1.2rem 1.5rem; flex: 1; }
+  .stat-card .sc-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 2px; color: var(--gold-dark); }
+  .stat-card .sc-val { font-size: 2rem; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--cream); }
+  .entries-table { width: 100%; border-collapse: collapse; }
+  .entries-table th { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 2px; color: var(--gold-dark); padding: 0.7rem 1rem; text-align: left; border-bottom: 1px solid rgba(201,168,76,0.12); text-transform: uppercase; }
+  .entries-table td { padding: 0.9rem 1rem; font-size: 0.95rem; color: rgba(245,237,214,0.75); border-bottom: 1px solid rgba(201,168,76,0.06); vertical-align: top; }
+  .entries-table tr:hover td { background: rgba(201,168,76,0.05); }
+  .entry-name { font-weight: 600; color: var(--cream); font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+  .answer-row { margin-bottom: 7px; }
+  .answer-q { font-size: 11px; color: rgba(245,237,214,0.38); font-family: 'Cinzel', serif; letter-spacing: 0.5px; margin-bottom: 1px; }
+  .answer-a { font-size: 0.92rem; color: var(--gold-light); }
+  .empty-state { text-align: center; padding: 4rem; color: rgba(245,237,214,0.3); font-style: italic; font-size: 1.1rem; }
+  .loading-state { text-align: center; padding: 3rem; color: rgba(245,237,214,0.4); font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 2px; }
+  .admin-logout { margin-top: auto; font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 2px; color: rgba(245,237,214,0.3); cursor: pointer; text-transform: uppercase; background: none; border: none; transition: color 0.2s; }
+  .admin-logout:hover { color: var(--red); }
+  .delete-btn { background: none; border: none; cursor: pointer; color: rgba(204,41,54,0.35); font-size: 14px; transition: color 0.2s; }
+  .delete-btn:hover { color: var(--red); }
+  .error-msg { color: var(--red); font-size: 0.85rem; font-style: italic; padding: 1rem 0; }
+
+  .overlay { position: fixed; inset: 0; z-index: 100; background: rgba(10,22,40,0.97); display: flex; align-items: center; justify-content: center; }
+  .overlay.hidden { display: none; }
+  .login-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.2); border-radius: 2px; padding: 3rem; max-width: 380px; width: 100%; text-align: center; }
+  .login-box h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--cream); margin-bottom: 0.5rem; }
+  .login-box p { font-size: 0.9rem; color: rgba(245,237,214,0.45); margin-bottom: 1.8rem; font-style: italic; }
+  .login-error { color: var(--red); font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2rem; }
+  .corner-admin { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50; font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 2px; color: rgba(201,168,76,0.3); cursor: pointer; text-transform: uppercase; background: none; border: none; transition: color 0.2s; }
+  .corner-admin:hover { color: var(--gold); }
+
+  @media (max-width: 640px) {
+    .welcome-card, .question-card { padding: 2rem 1.5rem; }
+    .letter-body { padding: 1.5rem; }
+    .letter-footer-bar { padding: 0.9rem 1.5rem; gap: 1rem; }
+    .letter-header-row { flex-direction: column; gap: 1rem; }
+    .next-steps { padding: 1.4rem 1.2rem; }
+    .admin-sidebar { display: none; }
+    .admin-main { margin-left: 0; padding: 1.5rem; }
+    .stats-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="bg-cross"></div>
+<div class="saving-toast" id="savingToast">SAVING YOUR ANSWERS…</div>
+
+<!-- ADMIN LOGIN -->
+<div class="overlay" id="adminOverlay">
+  <div class="login-box">
+    <div class="malta-badge" style="margin-bottom:1.5rem;">
+      <div class="cross-icon"></div>
+      <span class="badge-title">Admin Access</span>
+    </div>
+    <h2>Dashboard Login</h2>
+    <p>Enter the admin password to view all family responses</p>
+    <input type="password" class="name-input" id="adminPwInput" placeholder="Password" style="margin-bottom:0.8rem;">
+    <button class="btn-primary" onclick="checkAdmin()">Enter Dashboard</button>
+    <div class="login-error" id="loginError"></div>
+    <div style="margin-top:1.5rem;"><button class="btn-secondary" onclick="closeAdminOverlay()">← Back</button></div>
+  </div>
+</div>
+
+<!-- SCREEN 1: WELCOME -->
+<div class="screen active" id="screenWelcome">
+  <div class="welcome-card">
+    <div class="malta-badge">
+      <div class="cross-icon"></div>
+      <span class="badge-title">Republic of Malta</span>
+    </div>
+    <h1>An <span>Honest</span><br>Update For You</h1>
+    <div class="subtitle">From Emmanuel — with full transparency</div>
+    <div class="divider"></div>
+    <p class="instruction">Answer a few questions first, then I'll share the news about the Malta visa application — and what comes next.</p>
+    <input type="text" class="name-input" id="nameInput" placeholder="Your full name" maxlength="60">
+    <button class="btn-primary" onclick="startQuiz()">Begin →</button>
+  </div>
+  <button class="corner-admin" onclick="openAdminOverlay()">Admin ⚙</button>
+</div>
+
+<!-- SCREEN 2: QUIZ -->
+<div class="screen" id="screenQuiz">
+  <div class="quiz-wrap">
+    <div class="progress-bar-wrap">
+      <div class="progress-label">
+        <span>Question <span id="qNum">1</span> of 4</span>
+        <span id="qPct">0%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="question-card" id="questionCard">
+      <div class="q-number" id="qNumberLabel">QUESTION 01</div>
+      <div class="q-text" id="qText"></div>
+      <div class="options" id="optionsContainer"></div>
+    </div>
+  </div>
+  <button class="corner-admin" onclick="openAdminOverlay()">Admin ⚙</button>
+</div>
+
+<!-- SCREEN 3: REVEAL -->
+<div class="screen" id="screenReveal">
+  <div class="reveal-content">
+    <div class="letter-doc">
+      <div class="letter-topbar"></div>
+      <div class="letter-body">
+        <div class="letter-header-row">
+          <div>
+            <div class="refusal-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#CC2936" stroke-width="2"/><line x1="15" y1="9" x2="9" y2="15" stroke="#CC2936" stroke-width="2"/><line x1="9" y1="9" x2="15" y2="15" stroke="#CC2936" stroke-width="2"/></svg>
+              REFUSAL OF VISA
+            </div>
+            <div class="letter-fields">
+              <span class="lf-label">Date</span><span class="lf-value">28 January 2026</span>
+              <span class="lf-label">Office</span><span class="lf-value">Africa – Lagos</span>
+              <span class="lf-label">Applicant</span><span class="lf-value">Emmanuel Chukwunonso ADIGWE</span>
+              <span class="lf-label">Reference</span><span class="lf-value">VE54730007</span>
+              <span class="lf-label">Passport</span><span class="lf-value">B01907069</span>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div class="letter-brand-name">identità</div>
+            <div class="letter-brand-sub">MALTA · CENTRAL VISA UNIT</div>
+          </div>
+        </div>
+        <div class="letter-divider"></div>
+        <p class="letter-body-text">With reference to visa application <strong>VE54730007</strong>, the visa has been refused by the Central Visa Unit Identità, based on the following reason(s):</p>
+        <div class="refusal-reason-box">
+          <p>There are reasonable doubts as to the intention to leave the territory of the Member States before the expiry of the visa.</p>
+        </div>
+      </div>
+      <div class="letter-footer-bar">
+        <span class="lfoot-item">(+356) 2590 4550</span>
+        <span class="lfoot-item">visa.identita@gov.mt</span>
+        <span class="lfoot-item">identita.gov.mt</span>
+        <span class="lfoot-item">Identità, Triq il-Wied, L-Imsida, MSD 9020, MALTA</span>
+      </div>
+    </div>
+
+    <div class="next-steps">
+      <h3>🛤️ What Happens Next</h3>
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Contact the school</strong> — Reach out to the institution in Malta immediately. Request a new or updated invitation/enrollment letter to strengthen the reapplication.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Address the refusal reason</strong> — The visa was refused due to doubts about intention to return home. Include stronger ties-to-home evidence: proof of family, property, employment, or financial commitments in Nigeria.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Reapply with a stronger file</strong> — Updated bank statements, a clearer travel itinerary, proof of accommodation in Malta, and a well-written cover letter explaining purpose and return intent.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>Stay positive & persistent</strong> — A first refusal is not the end. Many successful visa holders were refused on their first attempt. The journey continues. 💪</div>
+      </div>
+    </div>
+
+    <div class="motivation-box">
+      <p>"Every setback is a setup for a comeback. This is not the end of the road — it is a bend in the road."</p>
+      <span>— Emmanuel keeps going 🇲🇹</span>
+    </div>
+
+    <div class="reveal-message">Thank you for your support, <span id="revealName" style="color:var(--gold);">—</span></div>
+    <div class="reveal-sub">Your answers have been saved. Emmanuel appreciates your honesty and love. 🙏</div>
+    <button class="btn-secondary" onclick="restartQuiz()">Check Malta Visa Application Result</button>
+  </div>
+  <button class="corner-admin" onclick="openAdminOverlay()">Admin ⚙</button>
+</div>
+
+<!-- SCREEN 4: ADMIN -->
+<div class="screen" id="screenAdmin" style="align-items:stretch;justify-content:flex-start;padding:0;">
+  <div class="admin-sidebar">
+    <div class="admin-logo">🇲🇹 MALTA REVEAL<br>ADMIN PANEL</div>
+    <div style="font-size:0.9rem;color:rgba(245,237,214,0.45);font-style:italic;line-height:1.7;">All quiz responses from your family — stored in the cloud.</div>
+    <button class="admin-logout" onclick="logoutAdmin()">← Exit Dashboard</button>
+  </div>
+  <div class="admin-main">
+    <div class="admin-title">Family Responses</div>
+    <div class="admin-subtitle">Everyone who went through the quiz — from any device, anywhere</div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="sc-label">Total Participants</div><div class="sc-val" id="statTotal">—</div></div>
+      <div class="stat-card"><div class="sc-label">Today</div><div class="sc-val" id="statToday">—</div></div>
+      <div class="stat-card"><div class="sc-label">Questions</div><div class="sc-val">4</div></div>
+    </div>
+    <table class="entries-table">
+      <thead><tr><th>Name</th><th>Their Answers</th><th>Time</th><th></th></tr></thead>
+      <tbody id="entriesBody"><tr><td colspan="4" class="loading-state">LOADING RESPONSES…</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = 'malta2025';
+
+const QUESTIONS = [
+  { q: "How well do you know Adigwe Emmanuel?", options: ["Not too well", "Very well", "Not at all", "From a distance"] },
+  { q: "What was your expectation for this visa application?", options: ["An approval", "A refusal", "Not sure", "I was scared"] },
+  { q: "If the visa is refused, what will be your next move?", options: ["Encourage him to re-apply", "Encourage him to continue with his work", "I don't know", "Give up"] },
+  { q: "For a refused Malta visa, the best option is to reach out to the school and reapply. Would you support that?", options: ["Yes, absolutely", "No", "I'm confused", "Take a break and think"] }
+];
+
+let currentUser = '', currentQ = 0, userAnswers = [], adminAuthed = false;
+
+function showScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+function startQuiz() {
+  const val = document.getElementById('nameInput').value.trim();
+  if (!val || val.length < 2) {
+    const inp = document.getElementById('nameInput');
+    inp.focus(); inp.style.borderColor = 'var(--red)';
+    setTimeout(() => inp.style.borderColor = '', 1500); return;
+  }
+  currentUser = val; currentQ = 0; userAnswers = [];
+  showScreen('screenQuiz'); renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const pct = Math.round((currentQ / QUESTIONS.length) * 100);
+  document.getElementById('qNum').textContent = currentQ + 1;
+  document.getElementById('qPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('qNumberLabel').textContent = 'QUESTION ' + String(currentQ + 1).padStart(2, '0');
+  document.getElementById('qText').textContent = q.q;
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  ['A','B','C','D'].forEach((letter, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-letter">${letter}</span><span>${q.options[i]}</span>`;
+    btn.onclick = () => selectAnswer(i, q.options[i]);
+    container.appendChild(btn);
+  });
+  const card = document.getElementById('questionCard');
+  card.style.animation = 'none'; card.offsetHeight; card.style.animation = 'slideUp 0.5s cubic-bezier(0.4,0,0.2,1)';
+}
+
+function selectAnswer(idx, optionText) {
+  document.querySelectorAll('.option-btn').forEach((b, i) => b.classList.add(i === idx ? 'chosen' : 'dimmed'));
+  userAnswers.push({ question: QUESTIONS[currentQ].q, chosen: optionText });
+  setTimeout(() => { currentQ++; currentQ < QUESTIONS.length ? renderQuestion() : finishQuiz(); }, 700);
+}
+
+async function finishQuiz() {
+  document.getElementById('revealName').textContent = currentUser;
+  showScreen('screenReveal');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Show saving toast
+  const toast = document.getElementById('savingToast');
+  toast.classList.add('visible');
+
+  try {
+    const res = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: currentUser, answers: userAnswers })
+    });
+    if (!res.ok) throw new Error('Server error');
+    toast.textContent = '✓ ANSWERS SAVED';
+    setTimeout(() => toast.classList.remove('visible'), 2500);
+  } catch (err) {
+    toast.textContent = '⚠ COULD NOT SAVE — CHECK CONNECTION';
+    setTimeout(() => toast.classList.remove('visible'), 3500);
+  }
+}
+
+function restartQuiz() { document.getElementById('nameInput').value = ''; showScreen('screenWelcome'); }
+
+// ── ADMIN ──
+function openAdminOverlay() {
+  document.getElementById('adminOverlay').classList.remove('hidden');
+  document.getElementById('adminPwInput').value = '';
+  document.getElementById('loginError').textContent = '';
+  setTimeout(() => document.getElementById('adminPwInput').focus(), 100);
+}
+function closeAdminOverlay() { document.getElementById('adminOverlay').classList.add('hidden'); }
+
+function checkAdmin() {
+  const pw = document.getElementById('adminPwInput').value;
+  if (pw === ADMIN_PASSWORD) {
+    adminAuthed = true;
+    closeAdminOverlay();
+    showScreen('screenAdmin');
+    loadAdminData();
+  } else {
+    document.getElementById('loginError').textContent = 'Incorrect password. Try again.';
+    document.getElementById('adminPwInput').value = '';
+    document.getElementById('adminPwInput').focus();
+  }
+}
+
+function logoutAdmin() { adminAuthed = false; showScreen('screenWelcome'); }
+
+async function loadAdminData() {
+  const tbody = document.getElementById('entriesBody');
+  tbody.innerHTML = '<tr><td colspan="4" class="loading-state">LOADING RESPONSES…</td></tr>';
+
+  try {
+    const res = await fetch('/api/results', {
+      headers: { 'x-admin-password': ADMIN_PASSWORD }
+    });
+    if (!res.ok) throw new Error('Unauthorized');
+    const { entries } = await res.json();
+
+    const today = new Date().toDateString();
+    const todayCount = entries.filter(e => new Date(e.timestamp).toDateString() === today).length;
+    document.getElementById('statTotal').textContent = entries.length;
+    document.getElementById('statToday').textContent = todayCount;
+
+    if (!entries.length) {
+      tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No responses yet — share the link with your family!</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = entries.map(e => {
+      const time = new Date(e.timestamp).toLocaleString('en-GB', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+      const answers = e.answers.map(a =>
+        `<div class="answer-row"><div class="answer-q">${a.question}</div><div class="answer-a">→ ${a.chosen}</div></div>`
+      ).join('');
+      return `<tr>
+        <td><div class="entry-name">${e.name}</div></td>
+        <td>${answers}</td>
+        <td style="white-space:nowrap;font-size:0.85rem;">${time}</td>
+        <td><button class="delete-btn" onclick="deleteEntry('${e.id}')" title="Delete">✕</button></td>
+      </tr>`;
+    }).join('');
+
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="4" class="empty-state error-msg">Could not load responses. Check your connection.</td></tr>`;
+    document.getElementById('statTotal').textContent = '—';
+    document.getElementById('statToday').textContent = '—';
+  }
+}
+
+async function deleteEntry(id) {
+  if (!confirm('Delete this entry?')) return;
+  try {
+    await fetch(`/api/results?id=${id}`, {
+      method: 'DELETE',
+      headers: { 'x-admin-password': ADMIN_PASSWORD }
+    });
+    loadAdminData();
+  } catch(err) {
+    alert('Could not delete. Try again.');
+  }
+}
+
+document.getElementById('nameInput').addEventListener('keydown', e => { if(e.key==='Enter') startQuiz(); });
+document.getElementById('adminPwInput').addEventListener('keydown', e => { if(e.key==='Enter') checkAdmin(); });
+</script>
+</body>
+</html>
